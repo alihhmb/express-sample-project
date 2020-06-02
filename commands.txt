@@ -29,5 +29,6 @@ set NODE_ENV=development&& npm run migrate
 #And a whole lot more. Let's see how you can use this file for custom configuration.
 #https://sequelize.org/v4/manual/tutorial/migrations.html#the-sequelizerc-file
 
-
+#installing dotenv package
+npm install --save dotenv
 
