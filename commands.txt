@@ -10,7 +10,7 @@ sequelize init
 sequelize migration:generate --name creating_product_and_category
 
 #to run migration you can either run the sequelize standard command
-sequelize db:migrate
+set NODE_ENV=development&& npm run migrate
 
 #or you can create a new script in package.json like this
 #"scripts": {
