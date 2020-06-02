@@ -41,3 +41,9 @@ https://www.npmjs.com/package/sequelize-auto
 npm install -g sequelize-auto
 # example
 sequelize-auto -o "./models" -d nodejs_sample_project -h localhost -u root -p 3306 -x root -e mysql
+
+
+# Creating the first Seed
+# https://sequelize.org/master/manual/migrations.html#creating-the-first-seed
+
+sequelize seed:generate --name categories
