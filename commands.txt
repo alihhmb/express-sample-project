@@ -34,3 +34,10 @@ npm install --save dotenv
 
 # How to use sequalize migration with dotenv
 # https://stackoverflow.com/questions/45790759/sequalize-migration-with-dotenv
+
+
+# A package to generate model automatically
+https://www.npmjs.com/package/sequelize-auto
+npm install -g sequelize-auto
+# example
+sequelize-auto -o "./models" -d nodejs_sample_project -h localhost -u root -p 3306 -x root -e mysql
