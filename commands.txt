@@ -1,0 +1,33 @@
+npm init
+npm install --save sequelize mysql2
+npm install --save-dev sequelize-cli
+
+
+#https://github.com/sequelize/cli
+sequelize init 
+
+#creating new migration
+sequelize migration:generate --name creating_product_and_category
+
+#to run migration you can either run the sequelize standard command
+sequelize db:migrate
+
+#or you can create a new script in package.json like this
+#"scripts": {
+#    "migrate": "sequelize db:migrate",
+#    ...
+# and run the script by typing this command:
+set NODE_ENV=development&& npm run migrate
+
+
+#The .sequelizerc File
+#This is a special configuration file. It lets you specify various options that you would usually pass as #arguments to CLI. Some scenarios where you can use it.
+#
+#    You want to override default path to migrations, models, seeders or config folder.
+#    You want to rename config.json to something else like database.json
+#
+#And a whole lot more. Let's see how you can use this file for custom configuration.
+#https://sequelize.org/v4/manual/tutorial/migrations.html#the-sequelizerc-file
+
+
+
