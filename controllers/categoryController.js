@@ -3,10 +3,22 @@ const createError = require('http-errors')
 const categoryRepository = require('../repository/categoryRepository');
 
 exports.getCategories = async (req, res) => {
-  const list = await categoryRepository.getCategories();
-  res.status(200).send(list);
+  let currentPage = req.page;
+  let { docs, pages, total }  = await categoryRepository.getCategories(currentPage, 5);
+  if(req.page > pages) {
+    const result = await categoryRepository.getCategories(pages, 5);
+    docs = result.docs;
+    pages = result.pages; 
+    total = result.total;
+    currentPage = pages;
+  }
+  res.status(200).send({
+    docs, 
+    page: currentPage,
+    pages, 
+    total
+  });
 };
-
 
 exports.getCategory = async (req, res) => {
   const { id } = req.params;

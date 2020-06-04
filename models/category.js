@@ -1,7 +1,9 @@
 /* jshint indent: 2 */
 
+const sequelizePaginate = require('sequelize-paginate')
+
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('category', {
+  const model = sequelize.define('category', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -16,4 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
     tableName: 'category'
   });
+
+  sequelizePaginate.paginate(model);
+  return model;
 };

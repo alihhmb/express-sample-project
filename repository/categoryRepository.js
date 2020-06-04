@@ -18,14 +18,14 @@ function validateCategory(category, edit = false) {
 }
 
 
-exports.getCategories = async () => {
-  let categories = await db.category.findAll({
-    attributes: ['id', 'name'],  
+exports.getCategories = async (page, pageSize) => {  
+  return await db.category.paginate({
+    page,
+    paginate: pageSize,
     order: [
       ['name', 'ASC'],
-    ]   
+    ] 
   });
-  return categories;
 };
 
 
