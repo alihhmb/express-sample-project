@@ -47,3 +47,10 @@ sequelize-auto -o "./models" -d nodejs_sample_project -h localhost -u root -p 33
 # https://sequelize.org/master/manual/migrations.html#creating-the-first-seed
 
 sequelize seed:generate --name categories
+
+
+
+# installing express:
+npm i express
+
+set NODE_ENV=development && node .
