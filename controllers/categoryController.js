@@ -3,7 +3,7 @@ const createError = require('http-errors')
 const categoryRepository = require('../repository/categoryRepository');
 
 exports.getCategories = async (req, res) => {
-  let currentPage = req.page;
+  let currentPage = req.query.page;
   let { docs, pages, total }  = await categoryRepository.getCategories(currentPage, 5);
   if(req.page > pages) {
     const result = await categoryRepository.getCategories(pages, 5);

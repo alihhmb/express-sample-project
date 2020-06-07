@@ -13,9 +13,9 @@ module.exports = function (req, res, next) {
   }
 
   if(invalidPage) {
-    req.page = 1;
+    req.query.page = 1;
   }else{
-    req.page = parseInt(page);
+    req.query.page = parseInt(page);
   }
   
   next();

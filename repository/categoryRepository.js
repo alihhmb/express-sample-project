@@ -18,7 +18,7 @@ function validateCategory(category, edit = false) {
 }
 
 
-exports.getCategories = async (page, pageSize) => {  
+const getCategories = async (page, pageSize) => {  
   return await db.category.paginate({
     page,
     paginate: pageSize,
@@ -29,7 +29,7 @@ exports.getCategories = async (page, pageSize) => {
 };
 
 
-exports.getCategory = async (id) => {
+const getCategory = async (id) => {
   const category = await db.category.findOne({
     attributes: ['id', 'name'],
     where: {id},
@@ -38,7 +38,7 @@ exports.getCategory = async (id) => {
 };
 
 
-exports.createCategory = async (category) => {
+const createCategory = async (category) => {
   category = _.omit(category, ['id']);
   const validation = validateCategory(category);
   if (validation.error) {
@@ -51,7 +51,7 @@ exports.createCategory = async (category) => {
 };
 
 
-exports.updateCategory = async (category) => {
+const updateCategory = async (category) => {
   const validation = validateCategory(category, true);
   if (validation.error) {
     throw new createError.BadRequest(validation.error.details[0].message);
@@ -66,7 +66,7 @@ exports.updateCategory = async (category) => {
 };
 
 
-exports.deleteCategory = async (id) => {
+const deleteCategory = async (id) => {
   const category = await db.category.findOne({ where: { id } });
   if (category) {
     await db.category.destroy({ where: { id } });
@@ -74,3 +74,13 @@ exports.deleteCategory = async (id) => {
   }
   throw new createError.NotFound('Category not found');
 };
+
+
+module.exports = {
+  getCategories,
+  getCategory,
+  createCategory,
+  updateCategory,
+  deleteCategory
+};
+

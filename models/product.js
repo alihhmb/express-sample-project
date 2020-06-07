@@ -1,7 +1,9 @@
 /* jshint indent: 2 */
 
+const sequelizePaginate = require('sequelize-paginate')
+
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('product', {
+  const model = sequelize.define('product', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -36,4 +38,14 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
     tableName: 'product'
   });
+
+  model.associate = (models) => {
+    model.belongsTo(models.category, {
+      foreignKey: 'category_id',
+      as: 'category',
+    });
+  };
+  
+  sequelizePaginate.paginate(model);
+  return model;
 };
