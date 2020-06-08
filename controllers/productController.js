@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize')
 const createError = require('http-errors')
+const fs = require('fs');
 const Joi = require('@hapi/joi');
 const productRepository = require('../repository/productRepository');
+const fileTypeDetector = require('../lib/fileTypeDetector');
 
 
 function getProductsParams(req) {
@@ -128,5 +130,42 @@ exports.deleteProduct = async (req, res) => {
           message: 'Server Error',
         });
       }
+  }
+};
+
+
+exports.updateProductImage = async (req, res) => {
+  try {
+    if (req.file) {
+      let product = await productRepository.getProduct(req.params.id);
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      const fileType = await fileTypeDetector.detectFromFile(req.file.path);
+      if (fileType.ext === 'jpg') {
+        if(product.image) {
+          const currentImagePath = `uploads/${product.image}`;
+          if (fs.existsSync(currentImagePath)) {
+            fs.unlinkSync(currentImagePath);
+          }
+        }
+        product = await productRepository.updateProductImage(
+          req.params.id,
+          req.file.filename,
+        );
+        res.status(200).send(product);
+      } else {
+        throw new Error('Invalid file format');
+      }
+    } else {
+      throw new Error('No file uploaded');
+    }
+  } catch (e) {
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+    res.status(500).send({
+      message: e.message,
+    });
   }
 };

@@ -48,6 +48,12 @@ sequelize-auto -o "./models" -d nodejs_sample_project -h localhost -u root -p 33
 
 sequelize seed:generate --name categories
 
+# Running seeds
+sequelize db:seed:all
+
+# Undoing seeds
+sequelize db:seed:undo
+
 
 
 # installing express:

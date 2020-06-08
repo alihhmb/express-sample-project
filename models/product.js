@@ -1,6 +1,7 @@
 /* jshint indent: 2 */
 
 const sequelizePaginate = require('sequelize-paginate')
+const fs = require('fs');
 
 module.exports = function(sequelize, DataTypes) {
   const model = sequelize.define('product', {
@@ -36,7 +37,17 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     timestamps: false,
-    tableName: 'product'
+    tableName: 'product',
+    hooks: {    
+      afterDestroy: function(instance, options) {
+        if(instance.image) {
+          const currentImagePath = `uploads/${instance.image}`;
+          if (fs.existsSync(currentImagePath)) {
+            fs.unlinkSync(currentImagePath);
+          }
+        }
+      }
+    }
   });
 
   model.associate = (models) => {

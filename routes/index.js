@@ -2,6 +2,7 @@ const {
   categoryController,
   productController,
 } = require('../controllers');
+const productRepository = require('../repository/productRepository');
 const pagination = require('../middleware/pagination');
 
 module.exports = (app) => {
@@ -16,4 +17,9 @@ module.exports = (app) => {
   app.post('/api/products', productController.createProduct);
   app.put('/api/products', productController.updateProduct);
   app.delete('/api/products/:id(\\d+)', productController.deleteProduct);
+  app.put(
+    '/api/products/upload-image/:id(\\d+)', 
+    productRepository.productImageUpload.single('image'), 
+    productController.updateProductImage
+  );
 };

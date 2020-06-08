@@ -1,6 +1,8 @@
 const Joi = require('@hapi/joi');
 const _ = require('lodash');
 const createError = require('http-errors')
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
 const db = require('../models');
 const categoryRepository = require('../repository/categoryRepository');
 
@@ -40,7 +42,7 @@ const getProducts = async (params, page, pageSize) => {
   const options = {
     page,
     paginate: pageSize,
-    attributes: ['id', 'name', 'description', 'price'],
+    attributes: ['id', 'name', 'description', 'image','price'],
     include: [{
       model: db.category,
       as: 'category',
@@ -64,7 +66,7 @@ const getProducts = async (params, page, pageSize) => {
 
 const getProduct = async (id) => {
   const product = await db.product.findOne({
-    attributes: ['id', 'name', 'description', 'price'],
+    attributes: ['id', 'name', 'description', 'image', 'price'],
     include: [{
       model: db.category,
       as: 'category',
@@ -105,19 +107,44 @@ const updateProduct = async (product) => {
 
 const deleteProduct = async (id) => {
   const product = await getProduct(id);
+  
   if (product) {
-    await db.product.destroy({ where: { id } });
+    await product.destroy();
+    //await db.product.destroy({ where: { id } });
     return product;
   }
   throw new createError.NotFound('Product not found');
 };
 
+const updateProductImage = async (id, filename) => {
+  const entity = await db.product.findOne({ where: { id } });
+  if (!entity) {
+    throw new createError.NotFound('Product not found');
+  }
+  return entity.update({
+    image: filename,
+  });
+};
+
+
+const productImageStorage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename(req, file, cb) {
+    cb(null, `${uuidv4()}.jpg`);
+  },
+});
+
+const productImageUpload = multer({ storage: productImageStorage });
 
 module.exports = {
   getProducts,
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  updateProductImage,
+  productImageUpload,
 };
 

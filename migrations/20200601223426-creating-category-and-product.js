@@ -2,10 +2,6 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {  
-
-    const transaction = await queryInterface.sequelize.transaction();
-    try {
-
       await queryInterface.sequelize.query(`CREATE TABLE IF NOT EXISTS \`category\` (
         \`id\` int(11) NOT NULL AUTO_INCREMENT,
         \`name\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -28,24 +24,11 @@ module.exports = {
       
       await queryInterface.sequelize.query(`ALTER TABLE \`product\`
       ADD CONSTRAINT \`product_ibfk_1\` FOREIGN KEY (\`category_id\`) REFERENCES \`category\` (\`id\`);`);
-
-      await transaction.commit();
-    } catch (err) {
-      await transaction.rollback();
-      throw err;
-    }
-   
   },
 
   down: async (queryInterface, Sequelize) => {
-    const transaction = await queryInterface.sequelize.transaction();
-    try {
       await queryInterface.sequelize.query(`ALTER TABLE \`product\` DROP FOREIGN KEY \`product_ibfk_1\`;`);
       await queryInterface.sequelize.query(`DROP TABLE IF EXISTS \`product\`;`);
-      await queryInterface.sequelize.query(`DROP TABLE IF EXISTS \`category\`;`);  
-    } catch (err) {
-      await transaction.rollback();
-      throw err;
-    }  
+      await queryInterface.sequelize.query(`DROP TABLE IF EXISTS \`category\`;`);    
   }
 };
