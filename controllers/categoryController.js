@@ -2,6 +2,8 @@ const Sequelize = require('sequelize')
 const createError = require('http-errors')
 const categoryRepository = require('../repository/categoryRepository');
 
+const awsConfig = require(__dirname + '/../config/config').AWS;
+
 exports.getCategories = async (req, res) => {
   let currentPage = req.query.page;
   let { docs, pages, total }  = await categoryRepository.getCategories(currentPage, 5);
@@ -13,6 +15,7 @@ exports.getCategories = async (req, res) => {
     currentPage = pages;
   }
   res.status(200).send({
+    bucket: awsConfig.bucket,
     docs, 
     page: currentPage,
     pages, 
