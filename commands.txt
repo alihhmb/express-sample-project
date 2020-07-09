@@ -51,6 +51,8 @@ sequelize seed:generate --name categories
 # Running seeds
 sequelize db:seed:all
 
+sequelize db:seed --seed 20200709164854-users.js
+
 # Undoing seeds
 sequelize db:seed:undo
 
