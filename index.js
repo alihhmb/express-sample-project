@@ -13,6 +13,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 routes(app);
 
+if (process.env.NODE_ENV === 'development') {
+  const swaggerDoc = require('./swagger/swaggerDoc');
+  swaggerDoc(app);
+}
+
 module.exports = app;
 const port = process.env.PORT || 3000;
 

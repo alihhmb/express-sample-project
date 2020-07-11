@@ -15,6 +15,7 @@ const validateProduct = async (product, edit = false) => {
   const schema = Joi.object({
     id: idValidation,
     name: Joi.string().required(),
+    description: Joi.string().required(),
     price: Joi.number().min(0).required(),
     category_id: Joi
                 .number()

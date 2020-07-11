@@ -15,7 +15,6 @@ exports.getCategories = async (req, res) => {
     currentPage = pages;
   }
   res.status(200).send({
-    bucket: awsConfig.bucket,
     docs, 
     page: currentPage,
     pages, 

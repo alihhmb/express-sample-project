@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "watch": "nodemon . -e js,yml",
     "migrate": "sequelize db:migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,7 +28,9 @@
     "read-chunk": "^3.2.0",
     "sequelize": "^5.21.11",
     "sequelize-paginate": "^1.1.6",
-    "uuid": "^8.1.0"
+    "swagger-ui-express": "^4.1.4",
+    "uuid": "^8.1.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.1"
